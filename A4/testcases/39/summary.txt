@@ -1,0 +1,24 @@
+unused-vars
+
+if-simpl
+0
+
+strength-reduction
+
+constant-folding
+18 2
+19 3
+20 -1
+21 2
+31 2
+
+constant-propagation
+18 a 1 b 2
+19 a 1 b 2
+20 a 1 b 2
+21 a 1 b 2
+31 a 1 b 2
+33 a 1
+
+cse
+18 21 31

@@ -1,0 +1,14 @@
+success
+success
+success
+success
+double-free error
+invalid-pointer error
+success
+success
+success
+success
+
+leaked-memory
+0 1
+9 9

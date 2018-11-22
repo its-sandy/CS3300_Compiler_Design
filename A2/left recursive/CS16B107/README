@@ -1,0 +1,7 @@
+The GRAMMAR followed is exactly as given in the question pdf -> LEFT RECURSIVE for all productions (except for var_decl).
+
+The set nonterminalset contains the set of nonterminal type tokens that can be present. This is used to decide whether a new node has to be created for the token.
+
+The YACC code uses variables like yyr1, yyr2, yyn, yystos, yyssp and yyval to get details about tokens and also store values of the node corresponding to the token.
+
+makeTree (general case), makeBinOpTree (for binary operators), assignStmtTree (for assignment statements) and assignArrayStmtTree (for array assignment statements) are the four possible cases that have to be performed when linking a parent node to its children. Each one has been given a #define

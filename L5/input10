@@ -1,0 +1,5 @@
+S : A A | B;
+A : B;
+B : b | c ;
+X : Y;
+Y : X | z;

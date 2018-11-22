@@ -1,0 +1,211 @@
+Grammar
+
+    0 $accept: GRAMMAR $end
+
+    1 GRAMMAR: RULES
+
+    2 RULES: RULES RULE
+    3      | RULE
+
+    4 RULE: NON_TERM ':' PRODUCTIONS ';'
+
+    5 PRODUCTIONS: PRODUCTIONS '|' PRODUCTION
+    6            | PRODUCTION
+
+    7 PRODUCTION: '$'
+    8           | ALPHA
+
+    9 ALPHA: ALPHA NON_TERM
+   10      | ALPHA TERM
+   11      | NON_TERM
+   12      | TERM
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'$' (36) 7
+':' (58) 4
+';' (59) 4
+'|' (124) 5
+error (256)
+TERM (258) 10 12
+NON_TERM (259) 4 9 11
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+GRAMMAR (10)
+    on left: 1, on right: 0
+RULES (11)
+    on left: 2 3, on right: 1 2
+RULE (12)
+    on left: 4, on right: 2 3
+PRODUCTIONS (13)
+    on left: 5 6, on right: 4 5
+PRODUCTION (14)
+    on left: 7 8, on right: 5 6
+ALPHA (15)
+    on left: 9 10 11 12, on right: 8 9 10
+
+
+State 0
+
+    0 $accept: . GRAMMAR $end
+
+    NON_TERM  shift, and go to state 1
+
+    GRAMMAR  go to state 2
+    RULES    go to state 3
+    RULE     go to state 4
+
+
+State 1
+
+    4 RULE: NON_TERM . ':' PRODUCTIONS ';'
+
+    ':'  shift, and go to state 5
+
+
+State 2
+
+    0 $accept: GRAMMAR . $end
+
+    $end  shift, and go to state 6
+
+
+State 3
+
+    1 GRAMMAR: RULES .
+    2 RULES: RULES . RULE
+
+    NON_TERM  shift, and go to state 1
+
+    $default  reduce using rule 1 (GRAMMAR)
+
+    RULE  go to state 7
+
+
+State 4
+
+    3 RULES: RULE .
+
+    $default  reduce using rule 3 (RULES)
+
+
+State 5
+
+    4 RULE: NON_TERM ':' . PRODUCTIONS ';'
+
+    TERM      shift, and go to state 8
+    NON_TERM  shift, and go to state 9
+    '$'       shift, and go to state 10
+
+    PRODUCTIONS  go to state 11
+    PRODUCTION   go to state 12
+    ALPHA        go to state 13
+
+
+State 6
+
+    0 $accept: GRAMMAR $end .
+
+    $default  accept
+
+
+State 7
+
+    2 RULES: RULES RULE .
+
+    $default  reduce using rule 2 (RULES)
+
+
+State 8
+
+   12 ALPHA: TERM .
+
+    $default  reduce using rule 12 (ALPHA)
+
+
+State 9
+
+   11 ALPHA: NON_TERM .
+
+    $default  reduce using rule 11 (ALPHA)
+
+
+State 10
+
+    7 PRODUCTION: '$' .
+
+    $default  reduce using rule 7 (PRODUCTION)
+
+
+State 11
+
+    4 RULE: NON_TERM ':' PRODUCTIONS . ';'
+    5 PRODUCTIONS: PRODUCTIONS . '|' PRODUCTION
+
+    ';'  shift, and go to state 14
+    '|'  shift, and go to state 15
+
+
+State 12
+
+    6 PRODUCTIONS: PRODUCTION .
+
+    $default  reduce using rule 6 (PRODUCTIONS)
+
+
+State 13
+
+    8 PRODUCTION: ALPHA .
+    9 ALPHA: ALPHA . NON_TERM
+   10      | ALPHA . TERM
+
+    TERM      shift, and go to state 16
+    NON_TERM  shift, and go to state 17
+
+    $default  reduce using rule 8 (PRODUCTION)
+
+
+State 14
+
+    4 RULE: NON_TERM ':' PRODUCTIONS ';' .
+
+    $default  reduce using rule 4 (RULE)
+
+
+State 15
+
+    5 PRODUCTIONS: PRODUCTIONS '|' . PRODUCTION
+
+    TERM      shift, and go to state 8
+    NON_TERM  shift, and go to state 9
+    '$'       shift, and go to state 10
+
+    PRODUCTION  go to state 18
+    ALPHA       go to state 13
+
+
+State 16
+
+   10 ALPHA: ALPHA TERM .
+
+    $default  reduce using rule 10 (ALPHA)
+
+
+State 17
+
+    9 ALPHA: ALPHA NON_TERM .
+
+    $default  reduce using rule 9 (ALPHA)
+
+
+State 18
+
+    5 PRODUCTIONS: PRODUCTIONS '|' PRODUCTION .
+
+    $default  reduce using rule 5 (PRODUCTIONS)

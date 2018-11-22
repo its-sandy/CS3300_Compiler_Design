@@ -1,0 +1,7 @@
+The program works as follows:-
+
+1) uses lex and yacc to tokenize and obtain the productions.
+
+2) remove epsilon productions from each nonterminal consecutively... if the START symbol itself is nullable, an epsilon production is added to it at the end.
+
+3) order the nonterminals by assigning an index ... use the procedure to remove left recursions by iterating in this order .... any cycles in the grammar are handled during this stage itself.

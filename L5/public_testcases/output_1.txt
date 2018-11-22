@@ -1,0 +1,5 @@
+S : A NT | B NT
+A : a
+B : b
+C : c
+NT : A NT | B NT | C NT | $

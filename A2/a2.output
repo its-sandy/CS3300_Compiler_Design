@@ -1,0 +1,1577 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: decl_list
+
+    2 decl_list: decl decl_list
+    3          | decl
+
+    4 decl: var_decl
+    5     | func_decl
+
+    6 var_decl: type_spec identifier ';'
+    7         | type_spec identifier ',' var_decl
+    8         | type_spec identifier '[' integerLit ']' ';'
+    9         | type_spec identifier '[' integerLit ']' ',' var_decl
+
+   10 type_spec: DATA_TYPE
+   11          | DATA_TYPE STAR
+
+   12 func_decl: type_spec identifier '(' params ')' compound_stmt
+
+   13 params: param_list
+   14       | epsilon
+
+   15 epsilon: %empty
+
+   16 param_list: param ',' param_list
+   17           | param
+
+   18 param: type_spec identifier
+   19      | type_spec '[' ']' identifier
+   20      | type_spec identifier '[' ']'
+
+   21 stmt_list: stmt stmt_list
+   22          | stmt
+
+   23 stmt: assign_stmt
+   24     | compound_stmt
+   25     | if_stmt
+   26     | while_stmt
+   27     | return_stmt
+   28     | break_stmt
+   29     | continue_stmt
+
+   30 while_stmt: WHILE_TOK '(' expr ')' stmt
+
+   31 compound_stmt: '{' local_decls stmt_list '}'
+
+   32 local_decls: local_decl local_decls
+   33            | epsilon
+
+   34 local_decl: type_spec identifier ';'
+   35           | type_spec identifier '[' expr ']' ';'
+
+   36 if_stmt: IF_TOK '(' expr ')' stmt
+   37        | IF_TOK '(' expr ')' stmt ELSE_TOK stmt
+
+   38 return_stmt: RETURN_TOK ';'
+   39            | RETURN_TOK expr ';'
+
+   40 break_stmt: BREAK_TOK ';'
+
+   41 continue_stmt: CONTINUE_TOK ';'
+
+   42 assign_stmt: identifier ASS_OP expr ';'
+   43            | identifier '[' expr ']' ASS_OP expr ';'
+
+   44 expr: Pexpr LOG_OR Pexpr
+   45     | Pexpr LOG_AND Pexpr
+   46     | Pexpr REL_OP2 Pexpr
+   47     | Pexpr REL_OP1 Pexpr
+   48     | Pexpr PLUSMIN Pexpr
+   49     | Pexpr STAR Pexpr
+   50     | Pexpr BINARY_OP Pexpr
+   51     | PLUSMIN Pexpr
+   52     | STAR Pexpr
+   53     | UNARY_OP Pexpr
+   54     | Pexpr
+   55     | identifier '(' args ')'
+   56     | identifier '[' expr ']'
+
+   57 Pexpr: integerLit
+   58      | floatLit
+   59      | identifier
+   60      | '(' expr ')'
+
+   61 integerLit: INT_LITERAL
+
+   62 floatLit: FLOAT_LITERAL
+
+   63 identifier: IDENTIFIER_TOK
+
+   64 arg_list: expr ',' arg_list
+   65         | expr
+
+   66 args: arg_list
+   67     | epsilon
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 12 30 36 37 55 60
+')' (41) 12 30 36 37 55 60
+',' (44) 7 9 16 64
+';' (59) 6 8 34 35 38 39 40 41 42 43
+'[' (91) 8 9 19 20 35 43 56
+']' (93) 8 9 19 20 35 43 56
+'{' (123) 31
+'}' (125) 31
+error (256)
+DATA_TYPE (258) 10 11
+IF_TOK (259) 36 37
+WHILE_TOK (260) 30
+BREAK_TOK (261) 40
+CONTINUE_TOK (262) 41
+RETURN_TOK (263) 38 39
+ASS_OP (264) 42 43
+IDENTIFIER_TOK (265) 63
+INT_LITERAL (266) 61
+FLOAT_LITERAL (267) 62
+PLUSMIN (268) 48 51
+STAR (269) 11 49 52
+pexp (270)
+onlyif (271)
+ELSE_TOK (272) 37
+LOG_OR (273) 44
+LOG_AND (274) 45
+REL_OP2 (275) 46
+REL_OP1 (276) 47
+binplusmin (277)
+binstar (278)
+BINARY_OP (279) 50
+UNARY_OP (280) 53
+unplusmin (281)
+unstar (282)
+array (283)
+function (284)
+
+
+Nonterminals, with rules where they appear
+
+$accept (38)
+    on left: 0
+program (39)
+    on left: 1, on right: 0
+decl_list (40)
+    on left: 2 3, on right: 1 2
+decl (41)
+    on left: 4 5, on right: 2 3
+var_decl (42)
+    on left: 6 7 8 9, on right: 4 7 9
+type_spec (43)
+    on left: 10 11, on right: 6 7 8 9 12 18 19 20 34 35
+func_decl (44)
+    on left: 12, on right: 5
+params (45)
+    on left: 13 14, on right: 12
+epsilon (46)
+    on left: 15, on right: 14 33 67
+param_list (47)
+    on left: 16 17, on right: 13 16
+param (48)
+    on left: 18 19 20, on right: 16 17
+stmt_list (49)
+    on left: 21 22, on right: 21 31
+stmt (50)
+    on left: 23 24 25 26 27 28 29, on right: 21 22 30 36 37
+while_stmt (51)
+    on left: 30, on right: 26
+compound_stmt (52)
+    on left: 31, on right: 12 24
+local_decls (53)
+    on left: 32 33, on right: 31 32
+local_decl (54)
+    on left: 34 35, on right: 32
+if_stmt (55)
+    on left: 36 37, on right: 25
+return_stmt (56)
+    on left: 38 39, on right: 27
+break_stmt (57)
+    on left: 40, on right: 28
+continue_stmt (58)
+    on left: 41, on right: 29
+assign_stmt (59)
+    on left: 42 43, on right: 23
+expr (60)
+    on left: 44 45 46 47 48 49 50 51 52 53 54 55 56, on right: 30 35
+    36 37 39 42 43 56 60 64 65
+Pexpr (61)
+    on left: 57 58 59 60, on right: 44 45 46 47 48 49 50 51 52 53 54
+integerLit (62)
+    on left: 61, on right: 8 9 57
+floatLit (63)
+    on left: 62, on right: 58
+identifier (64)
+    on left: 63, on right: 6 7 8 9 12 18 19 20 34 35 42 43 55 56 59
+arg_list (65)
+    on left: 64 65, on right: 64 66
+args (66)
+    on left: 66 67, on right: 55
+
+
+State 0
+
+    0 $accept: . program $end
+
+    DATA_TYPE  shift, and go to state 1
+
+    program    go to state 2
+    decl_list  go to state 3
+    decl       go to state 4
+    var_decl   go to state 5
+    type_spec  go to state 6
+    func_decl  go to state 7
+
+
+State 1
+
+   10 type_spec: DATA_TYPE .
+   11          | DATA_TYPE . STAR
+
+    STAR  shift, and go to state 8
+
+    $default  reduce using rule 10 (type_spec)
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 9
+
+
+State 3
+
+    1 program: decl_list .
+
+    $default  reduce using rule 1 (program)
+
+
+State 4
+
+    2 decl_list: decl . decl_list
+    3          | decl .
+
+    DATA_TYPE  shift, and go to state 1
+
+    $default  reduce using rule 3 (decl_list)
+
+    decl_list  go to state 10
+    decl       go to state 4
+    var_decl   go to state 5
+    type_spec  go to state 6
+    func_decl  go to state 7
+
+
+State 5
+
+    4 decl: var_decl .
+
+    $default  reduce using rule 4 (decl)
+
+
+State 6
+
+    6 var_decl: type_spec . identifier ';'
+    7         | type_spec . identifier ',' var_decl
+    8         | type_spec . identifier '[' integerLit ']' ';'
+    9         | type_spec . identifier '[' integerLit ']' ',' var_decl
+   12 func_decl: type_spec . identifier '(' params ')' compound_stmt
+
+    IDENTIFIER_TOK  shift, and go to state 11
+
+    identifier  go to state 12
+
+
+State 7
+
+    5 decl: func_decl .
+
+    $default  reduce using rule 5 (decl)
+
+
+State 8
+
+   11 type_spec: DATA_TYPE STAR .
+
+    $default  reduce using rule 11 (type_spec)
+
+
+State 9
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 10
+
+    2 decl_list: decl decl_list .
+
+    $default  reduce using rule 2 (decl_list)
+
+
+State 11
+
+   63 identifier: IDENTIFIER_TOK .
+
+    $default  reduce using rule 63 (identifier)
+
+
+State 12
+
+    6 var_decl: type_spec identifier . ';'
+    7         | type_spec identifier . ',' var_decl
+    8         | type_spec identifier . '[' integerLit ']' ';'
+    9         | type_spec identifier . '[' integerLit ']' ',' var_decl
+   12 func_decl: type_spec identifier . '(' params ')' compound_stmt
+
+    ';'  shift, and go to state 13
+    ','  shift, and go to state 14
+    '['  shift, and go to state 15
+    '('  shift, and go to state 16
+
+
+State 13
+
+    6 var_decl: type_spec identifier ';' .
+
+    $default  reduce using rule 6 (var_decl)
+
+
+State 14
+
+    7 var_decl: type_spec identifier ',' . var_decl
+
+    DATA_TYPE  shift, and go to state 1
+
+    var_decl   go to state 17
+    type_spec  go to state 18
+
+
+State 15
+
+    8 var_decl: type_spec identifier '[' . integerLit ']' ';'
+    9         | type_spec identifier '[' . integerLit ']' ',' var_decl
+
+    INT_LITERAL  shift, and go to state 19
+
+    integerLit  go to state 20
+
+
+State 16
+
+   12 func_decl: type_spec identifier '(' . params ')' compound_stmt
+
+    DATA_TYPE  shift, and go to state 1
+
+    $default  reduce using rule 15 (epsilon)
+
+    type_spec   go to state 21
+    params      go to state 22
+    epsilon     go to state 23
+    param_list  go to state 24
+    param       go to state 25
+
+
+State 17
+
+    7 var_decl: type_spec identifier ',' var_decl .
+
+    $default  reduce using rule 7 (var_decl)
+
+
+State 18
+
+    6 var_decl: type_spec . identifier ';'
+    7         | type_spec . identifier ',' var_decl
+    8         | type_spec . identifier '[' integerLit ']' ';'
+    9         | type_spec . identifier '[' integerLit ']' ',' var_decl
+
+    IDENTIFIER_TOK  shift, and go to state 11
+
+    identifier  go to state 26
+
+
+State 19
+
+   61 integerLit: INT_LITERAL .
+
+    $default  reduce using rule 61 (integerLit)
+
+
+State 20
+
+    8 var_decl: type_spec identifier '[' integerLit . ']' ';'
+    9         | type_spec identifier '[' integerLit . ']' ',' var_decl
+
+    ']'  shift, and go to state 27
+
+
+State 21
+
+   18 param: type_spec . identifier
+   19      | type_spec . '[' ']' identifier
+   20      | type_spec . identifier '[' ']'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    '['             shift, and go to state 28
+
+    identifier  go to state 29
+
+
+State 22
+
+   12 func_decl: type_spec identifier '(' params . ')' compound_stmt
+
+    ')'  shift, and go to state 30
+
+
+State 23
+
+   14 params: epsilon .
+
+    $default  reduce using rule 14 (params)
+
+
+State 24
+
+   13 params: param_list .
+
+    $default  reduce using rule 13 (params)
+
+
+State 25
+
+   16 param_list: param . ',' param_list
+   17           | param .
+
+    ','  shift, and go to state 31
+
+    $default  reduce using rule 17 (param_list)
+
+
+State 26
+
+    6 var_decl: type_spec identifier . ';'
+    7         | type_spec identifier . ',' var_decl
+    8         | type_spec identifier . '[' integerLit ']' ';'
+    9         | type_spec identifier . '[' integerLit ']' ',' var_decl
+
+    ';'  shift, and go to state 13
+    ','  shift, and go to state 14
+    '['  shift, and go to state 15
+
+
+State 27
+
+    8 var_decl: type_spec identifier '[' integerLit ']' . ';'
+    9         | type_spec identifier '[' integerLit ']' . ',' var_decl
+
+    ';'  shift, and go to state 32
+    ','  shift, and go to state 33
+
+
+State 28
+
+   19 param: type_spec '[' . ']' identifier
+
+    ']'  shift, and go to state 34
+
+
+State 29
+
+   18 param: type_spec identifier .
+   20      | type_spec identifier . '[' ']'
+
+    '['  shift, and go to state 35
+
+    $default  reduce using rule 18 (param)
+
+
+State 30
+
+   12 func_decl: type_spec identifier '(' params ')' . compound_stmt
+
+    '{'  shift, and go to state 36
+
+    compound_stmt  go to state 37
+
+
+State 31
+
+   16 param_list: param ',' . param_list
+
+    DATA_TYPE  shift, and go to state 1
+
+    type_spec   go to state 21
+    param_list  go to state 38
+    param       go to state 25
+
+
+State 32
+
+    8 var_decl: type_spec identifier '[' integerLit ']' ';' .
+
+    $default  reduce using rule 8 (var_decl)
+
+
+State 33
+
+    9 var_decl: type_spec identifier '[' integerLit ']' ',' . var_decl
+
+    DATA_TYPE  shift, and go to state 1
+
+    var_decl   go to state 39
+    type_spec  go to state 18
+
+
+State 34
+
+   19 param: type_spec '[' ']' . identifier
+
+    IDENTIFIER_TOK  shift, and go to state 11
+
+    identifier  go to state 40
+
+
+State 35
+
+   20 param: type_spec identifier '[' . ']'
+
+    ']'  shift, and go to state 41
+
+
+State 36
+
+   31 compound_stmt: '{' . local_decls stmt_list '}'
+
+    DATA_TYPE  shift, and go to state 1
+
+    $default  reduce using rule 15 (epsilon)
+
+    type_spec    go to state 42
+    epsilon      go to state 43
+    local_decls  go to state 44
+    local_decl   go to state 45
+
+
+State 37
+
+   12 func_decl: type_spec identifier '(' params ')' compound_stmt .
+
+    $default  reduce using rule 12 (func_decl)
+
+
+State 38
+
+   16 param_list: param ',' param_list .
+
+    $default  reduce using rule 16 (param_list)
+
+
+State 39
+
+    9 var_decl: type_spec identifier '[' integerLit ']' ',' var_decl .
+
+    $default  reduce using rule 9 (var_decl)
+
+
+State 40
+
+   19 param: type_spec '[' ']' identifier .
+
+    $default  reduce using rule 19 (param)
+
+
+State 41
+
+   20 param: type_spec identifier '[' ']' .
+
+    $default  reduce using rule 20 (param)
+
+
+State 42
+
+   34 local_decl: type_spec . identifier ';'
+   35           | type_spec . identifier '[' expr ']' ';'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+
+    identifier  go to state 46
+
+
+State 43
+
+   33 local_decls: epsilon .
+
+    $default  reduce using rule 33 (local_decls)
+
+
+State 44
+
+   31 compound_stmt: '{' local_decls . stmt_list '}'
+
+    IF_TOK          shift, and go to state 47
+    WHILE_TOK       shift, and go to state 48
+    BREAK_TOK       shift, and go to state 49
+    CONTINUE_TOK    shift, and go to state 50
+    RETURN_TOK      shift, and go to state 51
+    IDENTIFIER_TOK  shift, and go to state 11
+    '{'             shift, and go to state 36
+
+    stmt_list      go to state 52
+    stmt           go to state 53
+    while_stmt     go to state 54
+    compound_stmt  go to state 55
+    if_stmt        go to state 56
+    return_stmt    go to state 57
+    break_stmt     go to state 58
+    continue_stmt  go to state 59
+    assign_stmt    go to state 60
+    identifier     go to state 61
+
+
+State 45
+
+   32 local_decls: local_decl . local_decls
+
+    DATA_TYPE  shift, and go to state 1
+
+    $default  reduce using rule 15 (epsilon)
+
+    type_spec    go to state 42
+    epsilon      go to state 43
+    local_decls  go to state 62
+    local_decl   go to state 45
+
+
+State 46
+
+   34 local_decl: type_spec identifier . ';'
+   35           | type_spec identifier . '[' expr ']' ';'
+
+    ';'  shift, and go to state 63
+    '['  shift, and go to state 64
+
+
+State 47
+
+   36 if_stmt: IF_TOK . '(' expr ')' stmt
+   37        | IF_TOK . '(' expr ')' stmt ELSE_TOK stmt
+
+    '('  shift, and go to state 65
+
+
+State 48
+
+   30 while_stmt: WHILE_TOK . '(' expr ')' stmt
+
+    '('  shift, and go to state 66
+
+
+State 49
+
+   40 break_stmt: BREAK_TOK . ';'
+
+    ';'  shift, and go to state 67
+
+
+State 50
+
+   41 continue_stmt: CONTINUE_TOK . ';'
+
+    ';'  shift, and go to state 68
+
+
+State 51
+
+   38 return_stmt: RETURN_TOK . ';'
+   39            | RETURN_TOK . expr ';'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    ';'             shift, and go to state 73
+    '('             shift, and go to state 74
+
+    expr        go to state 75
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 52
+
+   31 compound_stmt: '{' local_decls stmt_list . '}'
+
+    '}'  shift, and go to state 80
+
+
+State 53
+
+   21 stmt_list: stmt . stmt_list
+   22          | stmt .
+
+    IF_TOK          shift, and go to state 47
+    WHILE_TOK       shift, and go to state 48
+    BREAK_TOK       shift, and go to state 49
+    CONTINUE_TOK    shift, and go to state 50
+    RETURN_TOK      shift, and go to state 51
+    IDENTIFIER_TOK  shift, and go to state 11
+    '{'             shift, and go to state 36
+
+    $default  reduce using rule 22 (stmt_list)
+
+    stmt_list      go to state 81
+    stmt           go to state 53
+    while_stmt     go to state 54
+    compound_stmt  go to state 55
+    if_stmt        go to state 56
+    return_stmt    go to state 57
+    break_stmt     go to state 58
+    continue_stmt  go to state 59
+    assign_stmt    go to state 60
+    identifier     go to state 61
+
+
+State 54
+
+   26 stmt: while_stmt .
+
+    $default  reduce using rule 26 (stmt)
+
+
+State 55
+
+   24 stmt: compound_stmt .
+
+    $default  reduce using rule 24 (stmt)
+
+
+State 56
+
+   25 stmt: if_stmt .
+
+    $default  reduce using rule 25 (stmt)
+
+
+State 57
+
+   27 stmt: return_stmt .
+
+    $default  reduce using rule 27 (stmt)
+
+
+State 58
+
+   28 stmt: break_stmt .
+
+    $default  reduce using rule 28 (stmt)
+
+
+State 59
+
+   29 stmt: continue_stmt .
+
+    $default  reduce using rule 29 (stmt)
+
+
+State 60
+
+   23 stmt: assign_stmt .
+
+    $default  reduce using rule 23 (stmt)
+
+
+State 61
+
+   42 assign_stmt: identifier . ASS_OP expr ';'
+   43            | identifier . '[' expr ']' ASS_OP expr ';'
+
+    ASS_OP  shift, and go to state 82
+    '['     shift, and go to state 83
+
+
+State 62
+
+   32 local_decls: local_decl local_decls .
+
+    $default  reduce using rule 32 (local_decls)
+
+
+State 63
+
+   34 local_decl: type_spec identifier ';' .
+
+    $default  reduce using rule 34 (local_decl)
+
+
+State 64
+
+   35 local_decl: type_spec identifier '[' . expr ']' ';'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 84
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 65
+
+   36 if_stmt: IF_TOK '(' . expr ')' stmt
+   37        | IF_TOK '(' . expr ')' stmt ELSE_TOK stmt
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 85
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 66
+
+   30 while_stmt: WHILE_TOK '(' . expr ')' stmt
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 86
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 67
+
+   40 break_stmt: BREAK_TOK ';' .
+
+    $default  reduce using rule 40 (break_stmt)
+
+
+State 68
+
+   41 continue_stmt: CONTINUE_TOK ';' .
+
+    $default  reduce using rule 41 (continue_stmt)
+
+
+State 69
+
+   62 floatLit: FLOAT_LITERAL .
+
+    $default  reduce using rule 62 (floatLit)
+
+
+State 70
+
+   51 expr: PLUSMIN . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 87
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 71
+
+   52 expr: STAR . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 89
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 72
+
+   53 expr: UNARY_OP . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 90
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 73
+
+   38 return_stmt: RETURN_TOK ';' .
+
+    $default  reduce using rule 38 (return_stmt)
+
+
+State 74
+
+   60 Pexpr: '(' . expr ')'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 91
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 75
+
+   39 return_stmt: RETURN_TOK expr . ';'
+
+    ';'  shift, and go to state 92
+
+
+State 76
+
+   44 expr: Pexpr . LOG_OR Pexpr
+   45     | Pexpr . LOG_AND Pexpr
+   46     | Pexpr . REL_OP2 Pexpr
+   47     | Pexpr . REL_OP1 Pexpr
+   48     | Pexpr . PLUSMIN Pexpr
+   49     | Pexpr . STAR Pexpr
+   50     | Pexpr . BINARY_OP Pexpr
+   54     | Pexpr .
+
+    PLUSMIN    shift, and go to state 93
+    STAR       shift, and go to state 94
+    LOG_OR     shift, and go to state 95
+    LOG_AND    shift, and go to state 96
+    REL_OP2    shift, and go to state 97
+    REL_OP1    shift, and go to state 98
+    BINARY_OP  shift, and go to state 99
+
+    $default  reduce using rule 54 (expr)
+
+
+State 77
+
+   57 Pexpr: integerLit .
+
+    $default  reduce using rule 57 (Pexpr)
+
+
+State 78
+
+   58 Pexpr: floatLit .
+
+    $default  reduce using rule 58 (Pexpr)
+
+
+State 79
+
+   55 expr: identifier . '(' args ')'
+   56     | identifier . '[' expr ']'
+   59 Pexpr: identifier .
+
+    '['  shift, and go to state 100
+    '('  shift, and go to state 101
+
+    $default  reduce using rule 59 (Pexpr)
+
+
+State 80
+
+   31 compound_stmt: '{' local_decls stmt_list '}' .
+
+    $default  reduce using rule 31 (compound_stmt)
+
+
+State 81
+
+   21 stmt_list: stmt stmt_list .
+
+    $default  reduce using rule 21 (stmt_list)
+
+
+State 82
+
+   42 assign_stmt: identifier ASS_OP . expr ';'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 102
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 83
+
+   43 assign_stmt: identifier '[' . expr ']' ASS_OP expr ';'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 103
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 84
+
+   35 local_decl: type_spec identifier '[' expr . ']' ';'
+
+    ']'  shift, and go to state 104
+
+
+State 85
+
+   36 if_stmt: IF_TOK '(' expr . ')' stmt
+   37        | IF_TOK '(' expr . ')' stmt ELSE_TOK stmt
+
+    ')'  shift, and go to state 105
+
+
+State 86
+
+   30 while_stmt: WHILE_TOK '(' expr . ')' stmt
+
+    ')'  shift, and go to state 106
+
+
+State 87
+
+   51 expr: PLUSMIN Pexpr .
+
+    $default  reduce using rule 51 (expr)
+
+
+State 88
+
+   59 Pexpr: identifier .
+
+    $default  reduce using rule 59 (Pexpr)
+
+
+State 89
+
+   52 expr: STAR Pexpr .
+
+    $default  reduce using rule 52 (expr)
+
+
+State 90
+
+   53 expr: UNARY_OP Pexpr .
+
+    $default  reduce using rule 53 (expr)
+
+
+State 91
+
+   60 Pexpr: '(' expr . ')'
+
+    ')'  shift, and go to state 107
+
+
+State 92
+
+   39 return_stmt: RETURN_TOK expr ';' .
+
+    $default  reduce using rule 39 (return_stmt)
+
+
+State 93
+
+   48 expr: Pexpr PLUSMIN . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 108
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 94
+
+   49 expr: Pexpr STAR . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 109
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 95
+
+   44 expr: Pexpr LOG_OR . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 110
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 96
+
+   45 expr: Pexpr LOG_AND . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 111
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 97
+
+   46 expr: Pexpr REL_OP2 . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 112
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 98
+
+   47 expr: Pexpr REL_OP1 . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 113
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 99
+
+   50 expr: Pexpr BINARY_OP . Pexpr
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    '('             shift, and go to state 74
+
+    Pexpr       go to state 114
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 88
+
+
+State 100
+
+   56 expr: identifier '[' . expr ']'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 115
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 101
+
+   55 expr: identifier '(' . args ')'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    $default  reduce using rule 15 (epsilon)
+
+    epsilon     go to state 116
+    expr        go to state 117
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+    arg_list    go to state 118
+    args        go to state 119
+
+
+State 102
+
+   42 assign_stmt: identifier ASS_OP expr . ';'
+
+    ';'  shift, and go to state 120
+
+
+State 103
+
+   43 assign_stmt: identifier '[' expr . ']' ASS_OP expr ';'
+
+    ']'  shift, and go to state 121
+
+
+State 104
+
+   35 local_decl: type_spec identifier '[' expr ']' . ';'
+
+    ';'  shift, and go to state 122
+
+
+State 105
+
+   36 if_stmt: IF_TOK '(' expr ')' . stmt
+   37        | IF_TOK '(' expr ')' . stmt ELSE_TOK stmt
+
+    IF_TOK          shift, and go to state 47
+    WHILE_TOK       shift, and go to state 48
+    BREAK_TOK       shift, and go to state 49
+    CONTINUE_TOK    shift, and go to state 50
+    RETURN_TOK      shift, and go to state 51
+    IDENTIFIER_TOK  shift, and go to state 11
+    '{'             shift, and go to state 36
+
+    stmt           go to state 123
+    while_stmt     go to state 54
+    compound_stmt  go to state 55
+    if_stmt        go to state 56
+    return_stmt    go to state 57
+    break_stmt     go to state 58
+    continue_stmt  go to state 59
+    assign_stmt    go to state 60
+    identifier     go to state 61
+
+
+State 106
+
+   30 while_stmt: WHILE_TOK '(' expr ')' . stmt
+
+    IF_TOK          shift, and go to state 47
+    WHILE_TOK       shift, and go to state 48
+    BREAK_TOK       shift, and go to state 49
+    CONTINUE_TOK    shift, and go to state 50
+    RETURN_TOK      shift, and go to state 51
+    IDENTIFIER_TOK  shift, and go to state 11
+    '{'             shift, and go to state 36
+
+    stmt           go to state 124
+    while_stmt     go to state 54
+    compound_stmt  go to state 55
+    if_stmt        go to state 56
+    return_stmt    go to state 57
+    break_stmt     go to state 58
+    continue_stmt  go to state 59
+    assign_stmt    go to state 60
+    identifier     go to state 61
+
+
+State 107
+
+   60 Pexpr: '(' expr ')' .
+
+    $default  reduce using rule 60 (Pexpr)
+
+
+State 108
+
+   48 expr: Pexpr PLUSMIN Pexpr .
+
+    $default  reduce using rule 48 (expr)
+
+
+State 109
+
+   49 expr: Pexpr STAR Pexpr .
+
+    $default  reduce using rule 49 (expr)
+
+
+State 110
+
+   44 expr: Pexpr LOG_OR Pexpr .
+
+    $default  reduce using rule 44 (expr)
+
+
+State 111
+
+   45 expr: Pexpr LOG_AND Pexpr .
+
+    $default  reduce using rule 45 (expr)
+
+
+State 112
+
+   46 expr: Pexpr REL_OP2 Pexpr .
+
+    $default  reduce using rule 46 (expr)
+
+
+State 113
+
+   47 expr: Pexpr REL_OP1 Pexpr .
+
+    $default  reduce using rule 47 (expr)
+
+
+State 114
+
+   50 expr: Pexpr BINARY_OP Pexpr .
+
+    $default  reduce using rule 50 (expr)
+
+
+State 115
+
+   56 expr: identifier '[' expr . ']'
+
+    ']'  shift, and go to state 125
+
+
+State 116
+
+   67 args: epsilon .
+
+    $default  reduce using rule 67 (args)
+
+
+State 117
+
+   64 arg_list: expr . ',' arg_list
+   65         | expr .
+
+    ','  shift, and go to state 126
+
+    $default  reduce using rule 65 (arg_list)
+
+
+State 118
+
+   66 args: arg_list .
+
+    $default  reduce using rule 66 (args)
+
+
+State 119
+
+   55 expr: identifier '(' args . ')'
+
+    ')'  shift, and go to state 127
+
+
+State 120
+
+   42 assign_stmt: identifier ASS_OP expr ';' .
+
+    $default  reduce using rule 42 (assign_stmt)
+
+
+State 121
+
+   43 assign_stmt: identifier '[' expr ']' . ASS_OP expr ';'
+
+    ASS_OP  shift, and go to state 128
+
+
+State 122
+
+   35 local_decl: type_spec identifier '[' expr ']' ';' .
+
+    $default  reduce using rule 35 (local_decl)
+
+
+State 123
+
+   36 if_stmt: IF_TOK '(' expr ')' stmt .
+   37        | IF_TOK '(' expr ')' stmt . ELSE_TOK stmt
+
+    ELSE_TOK  shift, and go to state 129
+
+    $default  reduce using rule 36 (if_stmt)
+
+
+State 124
+
+   30 while_stmt: WHILE_TOK '(' expr ')' stmt .
+
+    $default  reduce using rule 30 (while_stmt)
+
+
+State 125
+
+   56 expr: identifier '[' expr ']' .
+
+    $default  reduce using rule 56 (expr)
+
+
+State 126
+
+   64 arg_list: expr ',' . arg_list
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 117
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+    arg_list    go to state 130
+
+
+State 127
+
+   55 expr: identifier '(' args ')' .
+
+    $default  reduce using rule 55 (expr)
+
+
+State 128
+
+   43 assign_stmt: identifier '[' expr ']' ASS_OP . expr ';'
+
+    IDENTIFIER_TOK  shift, and go to state 11
+    INT_LITERAL     shift, and go to state 19
+    FLOAT_LITERAL   shift, and go to state 69
+    PLUSMIN         shift, and go to state 70
+    STAR            shift, and go to state 71
+    UNARY_OP        shift, and go to state 72
+    '('             shift, and go to state 74
+
+    expr        go to state 131
+    Pexpr       go to state 76
+    integerLit  go to state 77
+    floatLit    go to state 78
+    identifier  go to state 79
+
+
+State 129
+
+   37 if_stmt: IF_TOK '(' expr ')' stmt ELSE_TOK . stmt
+
+    IF_TOK          shift, and go to state 47
+    WHILE_TOK       shift, and go to state 48
+    BREAK_TOK       shift, and go to state 49
+    CONTINUE_TOK    shift, and go to state 50
+    RETURN_TOK      shift, and go to state 51
+    IDENTIFIER_TOK  shift, and go to state 11
+    '{'             shift, and go to state 36
+
+    stmt           go to state 132
+    while_stmt     go to state 54
+    compound_stmt  go to state 55
+    if_stmt        go to state 56
+    return_stmt    go to state 57
+    break_stmt     go to state 58
+    continue_stmt  go to state 59
+    assign_stmt    go to state 60
+    identifier     go to state 61
+
+
+State 130
+
+   64 arg_list: expr ',' arg_list .
+
+    $default  reduce using rule 64 (arg_list)
+
+
+State 131
+
+   43 assign_stmt: identifier '[' expr ']' ASS_OP expr . ';'
+
+    ';'  shift, and go to state 133
+
+
+State 132
+
+   37 if_stmt: IF_TOK '(' expr ')' stmt ELSE_TOK stmt .
+
+    $default  reduce using rule 37 (if_stmt)
+
+
+State 133
+
+   43 assign_stmt: identifier '[' expr ']' ASS_OP expr ';' .
+
+    $default  reduce using rule 43 (assign_stmt)

@@ -1,0 +1,4 @@
+S : X X | Y;
+X : a X b | $;
+Y : a Y B | Z;
+Z : b Z a | $;

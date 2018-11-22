@@ -1,0 +1,33 @@
+check out all constructs
+ including if
+
+print_stmt change to accommodate float 
+float global variable
+separate symbol tables for local float, local int, global float, global int......keep a set of floats
+
+update localFloat and globalFloat
+return type of functions
+
+update datatype for all cases of expr and pexpr .. even the productions for which you earlier didn't write code
+
+can result of raltional operators only be int
+
+is this the right way to store float?
+
+
+movss and addss can't be used on registers so change it
+
+redo all float statements
+
+all combinations of local and global float and int
+
+float in function
+
+return type as float
+///////////////
+
+for maintaining 16 byte stack for print, 
+maintain a global memory location to store rsp value (call this bla)
+right before print statement, copy rsp to bla
+16 byte align rsp using what rags told
+right after print statement, copy from bla to rsp

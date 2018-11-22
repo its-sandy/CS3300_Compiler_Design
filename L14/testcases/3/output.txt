@@ -1,0 +1,7 @@
+success
+success
+out-of-memory error
+success
+
+leaked-memory
+0 22

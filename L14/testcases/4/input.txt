@@ -1,0 +1,11 @@
+10 best-fit
+malloc p1 2
+malloc p2 3
+free p1
+malloc p3 2
+free p1
+free p5
+malloc p3 4
+malloc p4 1
+free p3
+free p2

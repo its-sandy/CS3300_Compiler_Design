@@ -1,0 +1,16 @@
+unused-vars
+
+if-simpl
+
+strength-reduction
+
+constant-folding
+
+constant-propagation
+26 c 6
+27 d 7
+28 x 1
+29 y 2
+30 z 5
+
+cse

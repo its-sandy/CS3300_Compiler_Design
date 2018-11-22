@@ -1,0 +1,5 @@
+100 first-fit
+malloc p1 23
+malloc p2 34
+malloc p3 80
+free p2

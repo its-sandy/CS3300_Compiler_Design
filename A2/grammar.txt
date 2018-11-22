@@ -1,0 +1,2 @@
+The GRAMMAR followed is exactly as given in the question pdf.
+It is LEFT RECURSIVE for all productions (except for var_decl).

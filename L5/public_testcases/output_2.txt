@@ -1,0 +1,7 @@
+S : A NT1 ;
+A : B | a ;
+B : C | b ;
+C : b NT1 D NT2 | a NT1 D NT2 | c NT2 ;
+D : d ;
+NT1 : D A NT1 | $ ;
+NT2 : NT1 D NT2 | $ ;

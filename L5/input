@@ -1,0 +1,4 @@
+S : A | S x ;
+A : B | a ;
+B : C | b ;
+C : A | c ;

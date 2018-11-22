@@ -1,0 +1,19 @@
+unused-vars
+
+if-simpl
+0
+
+strength-reduction
+
+constant-folding
+14 880
+22 44
+
+constant-propagation
+9 y 12
+14 x 32 y 12
+16 z 880
+22 x 32 y 12
+23 z 44
+
+cse

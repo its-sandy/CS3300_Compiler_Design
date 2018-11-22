@@ -1,0 +1,8 @@
+check while, if , if else, if else if else (and other combinations)
+check all arithmetic and logic operations
+check functions with 0 or more arguments
+
+try running using script
+
+first push start address of array, then give space for array elements
+in symbol table, simply give the location where the address is stored... thus, it is automatically passed to functions

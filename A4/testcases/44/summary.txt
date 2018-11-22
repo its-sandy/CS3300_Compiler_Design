@@ -1,0 +1,33 @@
+unused-vars
+
+if-simpl
+
+strength-reduction
+
+constant-folding
+39 12
+40 12
+44 12
+48 50
+50 56
+51 88
+53 15
+
+constant-propagation
+39 m 22
+40 m 22
+44 m 22
+48 g 10
+50 j 50
+51 m 22
+53 o 12
+60 f 10
+61 g 10
+63 i 12
+64 j 50
+67 m 22
+68 n 88
+69 o 12
+72 r 15
+
+cse

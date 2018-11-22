@@ -1,0 +1,14 @@
+handle:-
+
+S-> A b
+A->epsilon  .... looks like done
+
+
+handle replicas:- 			... looks like done
+S -> A B | A B ;
+
+check if start term is nullable  ... looks like done
+
+convert productions from stored as vector to sets  ... looks like not necessary
+
+look out for epsilons in left_recurse_helper2 ... decide when $ should be given and when no productions (including epsilon) are applicable  ... looks like wont be asked

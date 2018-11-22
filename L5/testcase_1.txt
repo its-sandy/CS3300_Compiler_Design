@@ -1,0 +1,4 @@
+S : S A | S B | S C | A | B ;
+A : a ;
+B : b ;
+C : c ;
